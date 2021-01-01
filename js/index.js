@@ -113,7 +113,7 @@ var firebaseConfig = {
             window.alert("Message " + errmessage );
             }
             else{
-                window.alert("insert Success");
+                window.alert("insert Successfull");
             }
         });
     }
