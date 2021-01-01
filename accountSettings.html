@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <link src="stylesheet" href="design_files/fonts/material-design-iconic-font">
+        <link src="stylesheet" href="design_files/css/style.css">
+        <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-storage.js"></script>
+        <link rel="icon" href="logo.png" type="image/gif">
+
+  <title>
+    AccountSettings
+  </title>
+        <style>
+            body {font-family: Arial, Helvetica, sans-serif;background-color:"black";}
+* {box-sizing: border-box}
+
+/* Full-width input fields */
+input[type=email], input[type=password],input[type=text],input[type=number],select {
+  width: 100%;
+  padding: 5px;
+  margin-left: 1000px;
+  margin: 15px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=email]:focus, input[type=password]:focus,input[type=text]:focus,input[type=number]:focus,select:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn, .signupbtn {
+  float: left;
+  width: 50%;
+}
+.cont1{
+  padding: 70px;
+  margin-left: 400px;
+  margin-top: 50px;
+  height:650px;
+  width:46%;
+  background-color:whitesmoke;
+  border: 2px solid black;
+}
+/* Add padding to container elements */
+.container {
+  padding: 16px;
+  
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+  .cancelbtn, .signupbtn {
+     width: 100%;
+  }
+}
+
+        </style>
+    </head>
+    <body style=" background: #2c3e50;">
+        <div class="wrapper" >
+            <div class="inner">
+                
+                <form action="" class="cont1">
+                <h3>Account Settings</h3>
+                <div class="form-group">
+                    <input id="firstName" type="text" placeholder="FirstName" >
+                    <input id="lastName" type="text" placeholder="LastName" >
+                </div>
+                <div class="form-wrapper">
+                    <select name="" id="country" >
+                        <option value="" disabled selected>Country</option>
+                        <option value="India" >India</option>
+                        <option value="South Africa" >South Africa</option>
+                        <option value="Sri Lanka" >Sri Lanka</option>
+                        <option value="Australia" >Australia</option>
+                    </select>
+                    <i class="zmdi zmdi-caret-down" style="font-size:10px;"></i>
+                </div>
+                <div class="form-wrapper">
+                    <input id="phone" type="number" placeholder="Phone Number" >
+                    <i class="zmdi zmdi-tablet-mac"></i>
+                </div>
+                <div class="form-wrapper">
+                    <select name="" id="gender" >
+                        <option value="" disabled selected>Selected Gender</option>
+                        <option value="Male" >Male</option>
+                        <option value="Female" >Female</option>
+                        <option value="Others" >Others</option>
+                        
+                    </select>
+                    <i class="zmdi zmdi-caret-down" style="font-size:10px;"></i>
+                </div>
+                <div class="form-wrapper">
+                    <input id="address" type="text" placeholder="Address" >
+                    <i class="zmdi zmdi-account-box-mail"></i>
+                </div>
+                <div class ="form-group container-login100-form-btn">
+                    <button id="btn-update" type="button">
+                        Update and Set
+                        <i class ="zmdi zmdi-arrow-right"></i>
+                    </button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    <script src="js/index.js"></script> 
+       <script> 
+       firebase.auth().onAuthStateChanged(function(user){
+        if(user){
+               var userID=firebase.auth().currentUser.uid;
+               firebase.database().ref('Users/' + userID).once('value').then(function(snapshot){
+                   if(snapshot.val()){
+                        window.location.href="MainPage.html";
+                   }
+               });
+              
+           }
+    });
+       </script>
+        
+    </body>
+</html>

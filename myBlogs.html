@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        
+        <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-database.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-storage.js"></script>
+        <script src="js/index.js"></script> 
+    </head>
+
+    <body class="h-100">
+       <div class="row h-100 bg-light">
+           <div class="col-lg-0 bg-secondary">
+               <ul class ="nav-flex-column">
+
+               </ul>
+           </div>
+           <div class="col-lg-12">  
+               <div class="container" id="container">
+                <!-- Blog post -->
+                <div class ="jumbotron bg-dark" style="margin-top:15px;">
+                    <script>
+                        var counter=0;
+                    </script>
+
+                </div>
+                    <!-- Blog post ends -->
+                    <!-- AfterBlogpost-->
+                    <hr>
+                    <br><br><br>
+                    <div class="text-center bg-light text-dark">
+                        <h3>All new Blogs</h3>
+                    </div>
+                    <hr>
+                    <br>
+
+                    <div class="row container-fluid bg-3">
+                        <div class="col-sm-12" id="blogs">
+
+                        </div>
+                    </div>
+                    <br>
+                    
+<script>
+                    var user = firebase.auth().currentUser;
+
+                    var dbBlogs = firebase.database().ref().child("Blogs").orderByChild("uid").equalto(user.uid);
+                    dbBlogs.on("value",function(blogs){
+                        if(blogs.exists()){
+                            var blogsHtml = "";
+                            blogs.forEach(function(singleBlog){
+                                counter=counter+1; 
+                                blogsHtml += "<div class='jumbotron bg-light text-dark border border-dark'>";
+                                    blogsHtml += "<div> <img width='1000' height='450' src='";
+                                        blogsHtml += singleBlog.val().image;
+                                    blogsHtml += "'/></div></br>";
+
+                                    blogsHtml += "<div class='row'>";
+                                        blogsHtml +="<div class='col-sm-5'><p style='color:grey;'>"
+                                                    +"Published By : " + singleBlog.val().userName
+                                                    +"</p></div>" + 
+
+                                                    "<div class='col-sm-3'><p style='color:grey;'>"
+                                                    +"Time : " + singleBlog.val().time
+                                                    +"</p></div>" +
+
+                                                    "<div class='col-sm-4'><p style='color:grey;'>"
+                                                    +"Date : " + singleBlog.val().date
+                                                    +"</p></div>"
+                                            ;
+                                    blogsHtml += "</div></br>";
+                                    
+                                    blogsHtml += "<div style='text-align:justify; color: black;'> ";
+                                        blogsHtml += singleBlog.val().description;
+                                    blogsHtml += "</div></br>";
+                                blogsHtml += "</div>";
+                            });
+                            $("#blogs").html(blogsHtml);
+                        }
+                    });
+
+                    
+                    
+                    //**************************** ENding of Retrieve and Displaying***********************************************
+                    </script>
+
+
+                    <!--Uploading and validation -->
+                </div>
+               </div>
+           </div>
+       </div>
+
+
+       
+        <script> 
+        firebase.auth().onAuthStateChanged(function(user){
+            if(!user){
+                window.location.href="signin.html";
+            }
+     });
+        </script>
+    </body>
+</html>
